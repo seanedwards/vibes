@@ -25,21 +25,6 @@ jobs:
     - name: Install tools from .tool-versions
       uses: asdf-vm/actions/install@v4
       
-    - name: Setup Rust (if needed)
-      uses: actions-rust-lang/setup-rust-toolchain@v1
-      if: contains(github.event.inputs.just_command, 'rust') || contains(github.event.inputs.just_command, 'build') || contains(github.event.inputs.just_command, 'test')
-      
-    - name: Setup Ruby (if needed)
-      uses: ruby/setup-ruby@v1
-      if: contains(github.event.inputs.just_command, 'ruby') || contains(github.event.inputs.just_command, 'run-experiment')
-      with:
-        ruby-version: '3.2'
-        
-    - name: Install additional dependencies
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y tree
-        
     - name: Run Just command
       working-directory: ${{ github.event.inputs.working_directory }}
       run: just ${{ github.event.inputs.just_command }}
