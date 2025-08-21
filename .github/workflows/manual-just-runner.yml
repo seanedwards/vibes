@@ -1,0 +1,57 @@
+name: Manual Just Runner
+
+on:
+  workflow_dispatch:
+    inputs:
+      just_command:
+        description: 'Just command to run (e.g., "test", "build", "run-experiment hello")'
+        required: true
+        default: 'info'
+        type: string
+      working_directory:
+        description: 'Working directory (default: repository root)'
+        required: false
+        default: '.'
+        type: string
+
+jobs:
+  run-just:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+      
+    - name: Install Just
+      uses: extractions/setup-just@v2
+      
+    - name: Setup Rust (if needed)
+      uses: actions-rust-lang/setup-rust-toolchain@v1
+      if: contains(github.event.inputs.just_command, 'rust') || contains(github.event.inputs.just_command, 'build') || contains(github.event.inputs.just_command, 'test')
+      
+    - name: Setup Ruby (if needed)
+      uses: ruby/setup-ruby@v1
+      if: contains(github.event.inputs.just_command, 'ruby') || contains(github.event.inputs.just_command, 'run-experiment')
+      with:
+        ruby-version: '3.2'
+        
+    - name: Install additional dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y tree
+        
+    - name: Run Just command
+      working-directory: ${{ github.event.inputs.working_directory }}
+      run: just ${{ github.event.inputs.just_command }}
+      
+    - name: Upload artifacts (if any)
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: just-output-${{ github.run_number }}
+        path: |
+          target/
+          *.log
+          */target/
+        retention-days: 7
+        if-no-files-found: ignore
