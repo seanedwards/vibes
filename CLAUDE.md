@@ -47,6 +47,10 @@ Claude Code GitHub Actions enables AI-powered automation in GitHub workflows thr
 
 *To be documented as the project structure emerges*
 
+## Experiment Structure
+
+The root of this project should contain a subfolder for each experiment. Folders should be named using the format `YYYY-MM-DD Experiment Name/`.
+
 ## Key Guidelines
 
 - This is a test bench repository for validating Claude Code GitHub Actions functionality
