@@ -5,35 +5,6 @@
 default:
     @just --list
 
-# Run commands on a specific experiment by date prefix
-# Usage: just run 2025-08-21 <command>
-run date *args:
-    #!/usr/bin/env bash
-    set -euo pipefail
-    
-    # Find directory with the specified date prefix
-    experiment_dir=$(find . -maxdepth 1 -type d -name "{{date}}*" | head -1)
-    
-    if [ -z "$experiment_dir" ]; then
-        echo "❌ No experiment found with date prefix: {{date}}"
-        echo "Available experiments:"
-        find . -maxdepth 1 -type d -name "20*" | sort
-        exit 1
-    fi
-    
-    echo "🔬 Running in experiment: $experiment_dir"
-    
-    # Change to the experiment directory
-    cd "$experiment_dir"
-    
-    # Install dependencies with asdf
-    echo "📦 Installing dependencies with asdf..."
-    asdf install
-    
-    # Run the just command with provided arguments
-    echo "⚡ Executing: just {{args}}"
-    just {{args}}
-
 # List all experiments in the repository
 list-experiments:
     @echo "Available experiments:"
