@@ -1,0 +1,12 @@
+{
+  "servers": {
+    "just": {
+      "command": "npx",
+      "args": ["@toolprint/just-mcp"],
+      "env": {
+        "JUST_PATH": "just",
+        "JUSTFILE_PATH": "./Justfile"
+      }
+    }
+  }
+}
