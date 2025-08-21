@@ -5,45 +5,34 @@
 default:
     @just --list
 
-# Setup development environment
-setup:
-    @echo "Setting up development environment..."
-    @echo "Installing dependencies for all experiments..."
-    @if [ -d "2025-08-21 Hello World CLI" ]; then cd "2025-08-21 Hello World CLI" && cargo check; fi
-    @echo "Setup complete!"
-
-# Run tests for all experiments
-test:
-    @echo "Running tests for all experiments..."
-    @if [ -d "2025-08-21 Hello World CLI" ]; then cd "2025-08-21 Hello World CLI" && cargo test; fi
-    @echo "All tests completed!"
-
-# Build all experiments
-build:
-    @echo "Building all experiments..."
-    @if [ -d "2025-08-21 Hello World CLI" ]; then cd "2025-08-21 Hello World CLI" && cargo build; fi
-    @echo "Build completed!"
-
-# Clean all build artifacts
-clean:
-    @echo "Cleaning build artifacts..."
-    @if [ -d "2025-08-21 Hello World CLI" ]; then cd "2025-08-21 Hello World CLI" && cargo clean; fi
-    @echo "Clean completed!"
-
-# Run a specific experiment by name
-run-experiment experiment:
-    @echo "Running experiment: {{experiment}}"
-    @if [ -d "{{experiment}}" ]; then \
-        if [ -f "{{experiment}}/Cargo.toml" ]; then \
-            cd "{{experiment}}" && cargo run; \
-        elif [ -f "{{experiment}}/hello.rb" ]; then \
-            cd "{{experiment}}" && ruby hello.rb; \
-        else \
-            echo "No known executable found in {{experiment}}"; \
-        fi; \
-    else \
-        echo "Experiment directory '{{experiment}}' not found"; \
+# Run commands on a specific experiment by date prefix
+# Usage: just run 2025-08-21 <command>
+run date *args:
+    #!/usr/bin/env bash
+    set -euo pipefail
+    
+    # Find directory with the specified date prefix
+    experiment_dir=$(find . -maxdepth 1 -type d -name "{{date}}*" | head -1)
+    
+    if [ -z "$experiment_dir" ]; then
+        echo "❌ No experiment found with date prefix: {{date}}"
+        echo "Available experiments:"
+        find . -maxdepth 1 -type d -name "20*" | sort
+        exit 1
     fi
+    
+    echo "🔬 Running in experiment: $experiment_dir"
+    
+    # Change to the experiment directory
+    cd "$experiment_dir"
+    
+    # Install dependencies with asdf
+    echo "📦 Installing dependencies with asdf..."
+    asdf install
+    
+    # Run the just command with provided arguments
+    echo "⚡ Executing: just {{args}}"
+    just {{args}}
 
 # List all experiments in the repository
 list-experiments:

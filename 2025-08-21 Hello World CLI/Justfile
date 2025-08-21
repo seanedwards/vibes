@@ -1,0 +1,45 @@
+# Justfile for Hello World CLI experiment
+# Rust-based CLI application
+
+# Default recipe - shows help
+default:
+    @just --list
+
+# Setup the experiment environment
+setup:
+    @echo "Setting up Hello World CLI experiment..."
+    cargo check
+    @echo "Setup complete!"
+
+# Run tests
+test:
+    @echo "Running tests for Hello World CLI..."
+    cargo test
+
+# Build the project
+build:
+    @echo "Building Hello World CLI..."
+    cargo build
+
+# Build release version
+build-release:
+    @echo "Building Hello World CLI (release)..."
+    cargo build --release
+
+# Run the application
+run *args:
+    @echo "Running Hello World CLI..."
+    cargo run {{args}}
+
+# Clean build artifacts
+clean:
+    @echo "Cleaning Hello World CLI build artifacts..."
+    cargo clean
+
+# Check code formatting
+fmt:
+    cargo fmt
+
+# Run clippy lints
+lint:
+    cargo clippy
