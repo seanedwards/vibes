@@ -53,5 +53,7 @@ jobs:
           target/
           *.log
           */target/
+          */*.log
+          */*/target
         retention-days: 7
         if-no-files-found: ignore
