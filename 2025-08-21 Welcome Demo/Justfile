@@ -1,0 +1,30 @@
+# Justfile for Welcome Demo experiment
+# Ruby-based welcome script
+
+# Default recipe - shows help
+default:
+    @just --list
+
+# Setup the experiment environment
+setup:
+    @echo "Setting up Welcome Demo experiment..."
+    @echo "No additional setup required for Ruby script"
+    @echo "Setup complete!"
+
+# Run tests (placeholder for now)
+test:
+    @echo "Running tests for Welcome Demo..."
+    @echo "No tests defined yet"
+
+# Run the Ruby script
+run *args:
+    @echo "Running Welcome Demo..."
+    ruby hello.rb {{args}}
+
+# Clean (no-op for Ruby script)
+clean:
+    @echo "Nothing to clean for Ruby script"
+
+# Check Ruby syntax
+lint:
+    ruby -c hello.rb
