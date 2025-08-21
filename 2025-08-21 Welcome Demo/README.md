@@ -14,7 +14,13 @@ To run the Hello World application:
 ruby hello.rb
 ```
 
-This will output a friendly greeting message to demonstrate that the Ruby script is working correctly.
+Or, provide your name as an argument for a personalized greeting:
+
+```bash
+ruby hello.rb "Your Name"
+```
+
+This will output a friendly greeting message to demonstrate that the Ruby script is working correctly. If no name is provided, it defaults to "World".
 
 ## About This Demo
 
@@ -23,5 +29,6 @@ This demo showcases:
 - Following project conventions (directory naming, documentation standards)
 - Creating functional code from natural language descriptions
 - Automated development workflows using GitHub Actions and AI
+- AI-powered code review and implementation of requested changes
 
 The demo was created entirely through GitHub issue interactions, demonstrating how developers can work entirely within the GitHub ecosystem using AI assistance.
